@@ -47,18 +47,26 @@ public class GenerateData {
         // Instantiating HTable class
         HTable hTable = new HTable(con, tablename);
 
-        for (int i = 1; i <= Integer.parseInt(args[1]); i++) {
+        for (int i = 0; i < Integer.parseInt(args[1]); i++) {
 
             // cdr ID
             UUID id = UUID.randomUUID();
+            
+            int num = r.nextInt(10);
+            String provider_code, calling_num, called_num;
+            
+            if(num < 6){
+                provider_code = providers.get(r.nextInt(5));
+                calling_num = provider_numcode.get(service_provider) + df.getNumberText(7);
+                called_num = provider_numcode.get(provider_code) + df.getNumberText(7);
+            }
+            else{
+                provider_code = providers.get(r.nextInt(5));
+                calling_num = provider_numcode.get(provider_code) + df.getNumberText(7);
+                called_num = provider_numcode.get(service_provider) + df.getNumberText(7);
+            }
 
-            // calling party
-            String calling_num = provider_numcode.get(service_provider) + df.getNumberText(7);
             String calling_tower_id = service_provider + r.nextInt(10000);
-
-            // recipient
-            String provider_code = providers.get(r.nextInt(5));
-            String called_num = provider_numcode.get(provider_code) + df.getNumberText(7);
             String recipient_tower_id = provider_code + r.nextInt(10000);
 
             // date and time
