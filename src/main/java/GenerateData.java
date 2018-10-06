@@ -90,7 +90,7 @@ public class GenerateData {
 
             // Instantiating Put class
             // accepts a row name.
-            Put p = new Put(Bytes.toBytes("row "+i));
+            Put p = new Put(Bytes.toBytes(i));
 
             // adding values using add() method
             // accepts column family name, qualifier/row name ,value
@@ -122,6 +122,5 @@ public class GenerateData {
         hTable.close();
         System.out.println(" Table created ");
     }
-
 
 }
