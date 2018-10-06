@@ -38,28 +38,14 @@ public class GenerateData {
         // Instantiating table descriptor class
         HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(tablename));
 
-        if(service_provider.equals("DA")){
-            // Adding column families to table descriptor
-            tableDescriptor.addFamily(new HColumnDescriptor("cdr_id"));
-            tableDescriptor.addFamily(new HColumnDescriptor("calling_num"));
-            tableDescriptor.addFamily(new HColumnDescriptor("calling_tower"));
-            tableDescriptor.addFamily(new HColumnDescriptor("called_num"));
-            tableDescriptor.addFamily(new HColumnDescriptor("called_tower"));
-            tableDescriptor.addFamily(new HColumnDescriptor("date_time"));
-            tableDescriptor.addFamily(new HColumnDescriptor("duration"));
-        }
-
-        if(service_provider.equals("MT")){
-            // Adding column families to table descriptor
-            tableDescriptor.addFamily(new HColumnDescriptor("call_id"));
-            tableDescriptor.addFamily(new HColumnDescriptor("calling_id"));
-            tableDescriptor.addFamily(new HColumnDescriptor("calling_loc"));
-            tableDescriptor.addFamily(new HColumnDescriptor("caller_id"));
-            tableDescriptor.addFamily(new HColumnDescriptor("caller_loc"));
-            tableDescriptor.addFamily(new HColumnDescriptor("timestamp"));
-            tableDescriptor.addFamily(new HColumnDescriptor("talktime"));
-            tableDescriptor.addFamily(new HColumnDescriptor("cost"));
-        }
+        // Adding column families to table descriptor
+        tableDescriptor.addFamily(new HColumnDescriptor("cdr_id"));
+        tableDescriptor.addFamily(new HColumnDescriptor("calling_num"));
+        tableDescriptor.addFamily(new HColumnDescriptor("calling_tower"));
+        tableDescriptor.addFamily(new HColumnDescriptor("called_num"));
+        tableDescriptor.addFamily(new HColumnDescriptor("called_tower"));
+        tableDescriptor.addFamily(new HColumnDescriptor("date_time"));
+        tableDescriptor.addFamily(new HColumnDescriptor("duration"));
 
         // Execute the table through admin
         admin.createTable(tableDescriptor);
@@ -94,27 +80,14 @@ public class GenerateData {
 
             // adding values using add() method
             // accepts column family name, qualifier/row name ,value
-            if(service_provider.equals("DA")) {
-                p.add(Bytes.toBytes("cdr_id"), Bytes.toBytes("cdr_id"), Bytes.toBytes(id.toString()));
-                p.add(Bytes.toBytes("calling_num"), Bytes.toBytes("calling_num"), Bytes.toBytes(calling_num));
-                p.add(Bytes.toBytes("calling_tower"), Bytes.toBytes("calling_tower"), Bytes.toBytes(calling_tower_id));
-                p.add(Bytes.toBytes("called_num"), Bytes.toBytes("called_num"), Bytes.toBytes(called_num));
-                p.add(Bytes.toBytes("called_tower"), Bytes.toBytes("called_tower"), Bytes.toBytes(recipient_tower_id));
-                p.add(Bytes.toBytes("date_time"), Bytes.toBytes("date_time"), Bytes.toBytes(d1.toString()));
-                p.add(Bytes.toBytes("duration"), Bytes.toBytes("duration"), Bytes.toBytes(String.valueOf(duration)));
-            }
+            p.add(Bytes.toBytes("cdr_id"), Bytes.toBytes("cdr_id"), Bytes.toBytes(id.toString()));
+            p.add(Bytes.toBytes("calling_num"), Bytes.toBytes("calling_num"), Bytes.toBytes(calling_num));
+            p.add(Bytes.toBytes("calling_tower"), Bytes.toBytes("calling_tower"), Bytes.toBytes(calling_tower_id));
+            p.add(Bytes.toBytes("called_num"), Bytes.toBytes("called_num"), Bytes.toBytes(called_num));
+            p.add(Bytes.toBytes("called_tower"), Bytes.toBytes("called_tower"), Bytes.toBytes(recipient_tower_id));
+            p.add(Bytes.toBytes("date_time"), Bytes.toBytes("date_time"), Bytes.toBytes(d1.toString()));
+            p.add(Bytes.toBytes("duration"), Bytes.toBytes("duration"), Bytes.toBytes(String.valueOf(duration)));
 
-            if(service_provider.equals("MT")) {
-                p.add(Bytes.toBytes("call_id"), Bytes.toBytes("call_id"), Bytes.toBytes(id.toString()));
-                p.add(Bytes.toBytes("calling_id"), Bytes.toBytes("calling_id"), Bytes.toBytes(calling_num));
-                p.add(Bytes.toBytes("calling_loc"), Bytes.toBytes("calling_loc"), Bytes.toBytes(calling_tower_id));
-                p.add(Bytes.toBytes("caller_id"), Bytes.toBytes("caller_id"), Bytes.toBytes(called_num));
-                p.add(Bytes.toBytes("caller_loc"), Bytes.toBytes("caller_loc"), Bytes.toBytes(recipient_tower_id));
-                p.add(Bytes.toBytes("timestamp"), Bytes.toBytes("timestamp"), Bytes.toBytes(d1.toString()));
-                p.add(Bytes.toBytes("talktime"), Bytes.toBytes("talktime"), Bytes.toBytes(String.valueOf(duration)));
-                Double cost = 0.04 * duration;
-                p.add(Bytes.toBytes("cost"), Bytes.toBytes("cost"), Bytes.toBytes(String.valueOf(cost)));
-            }
             hTable.put(p);
             System.out.println("data inserted "+i);
         }
