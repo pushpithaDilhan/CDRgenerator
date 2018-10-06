@@ -18,9 +18,6 @@ public class GenerateData {
         // Instantiating configuration class
         Configuration con = HBaseConfiguration.create();
 
-        // Instantiating HbaseAdmin class
-        HBaseAdmin admin = new HBaseAdmin(con);
-
         String service_provider = args[0];
         String tablename = "cdr_test_" + service_provider;
 
@@ -46,9 +43,6 @@ public class GenerateData {
         tableDescriptor.addFamily(new HColumnDescriptor("called_tower"));
         tableDescriptor.addFamily(new HColumnDescriptor("date_time"));
         tableDescriptor.addFamily(new HColumnDescriptor("duration"));
-
-        // Execute the table through admin
-        admin.createTable(tableDescriptor);
 
         // Instantiating HTable class
         HTable hTable = new HTable(con, tablename);
